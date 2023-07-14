@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="princeton.BagTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-24T03:54:27" hostname="DESKTOP-5DHGOH6" time="48.324">
+<testsuite name="princeton.BagTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-13T17:38:51" hostname="DESKTOP-5DHGOH6" time="62.891">
   <properties/>
-  <testcase name="testBag()" classname="princeton.BagTest" time="48.324"/>
+  <testcase name="testBag()" classname="princeton.BagTest" time="62.891"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
