@@ -1,5 +1,3 @@
-package princeton;
-
 import edu.princeton.cs.algs4.Bag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
