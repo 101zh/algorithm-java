@@ -11,6 +11,7 @@ public class RandomWord {
             String sucessor = StdIn.readString();
             if (StdRandom.bernoulli(1.0 / index)) {
                 champion = sucessor;
+                index++;
             }
         }
 
