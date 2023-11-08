@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="BagTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-11-08T01:58:14" hostname="codespaces-9b43dd" time="0.022">
+  <properties/>
+  <testcase name="testBag()" classname="BagTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
