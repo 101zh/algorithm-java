@@ -4,15 +4,17 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomWord {
     public static void main(String[] args) {
-        String champion = StdIn.readString();
-        int index = 2;
+        String champion = "";
+        int index = 1;
 
         while (!StdIn.isEmpty()) {
             String sucessor = StdIn.readString();
+
             if (StdRandom.bernoulli(1.0 / index)) {
                 champion = sucessor;
-                index++;
             }
+
+            index++;
         }
 
         StdOut.print(champion);
