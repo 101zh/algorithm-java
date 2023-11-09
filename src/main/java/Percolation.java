@@ -1,5 +1,6 @@
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+// import java.util.Arrays;
 
 public class Percolation {
 
@@ -12,6 +13,8 @@ public class Percolation {
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
+        if (n <= 0)
+            throw new IllegalArgumentException("Invalid size of n or invalid trial #");
         grid = new boolean[n][n];
         numberedGrid = new int[n][n];
         quickUnionFind = new WeightedQuickUnionUF((n * n) + 2);
@@ -46,6 +49,9 @@ public class Percolation {
         if (isValid(row - 1, col) && grid[row - 1][col]) {
             quickUnionFind.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
         }
+        if (isValid(row + 1, col) && grid[row + 1][col]) {
+            quickUnionFind.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
+        }        
         if (isValid(row, col - 1) && grid[row][col - 1]) {
             quickUnionFind.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
         }
@@ -102,22 +108,33 @@ public class Percolation {
         }
     }
 
-    // // test client (optional)
+    // test client (optional)
     // public static void main(String[] args) {
-    // Percolation percolation = new Percolation(4);
-    // System.out.println(percolation.quickUnionFind.count());
-    // percolation.open(1, 1);
-    // percolation.open(2, 1);
-    // percolation.open(2, 2);
-    // percolation.open(2, 3);
-    // percolation.open(3, 3);
-    // percolation.open(3, 4);
-    // percolation.open(4, 4);
+    //     Percolation percolation = new Percolation(6);
+    //     System.out.println(percolation.quickUnionFind.count());
+    //     percolation.open(1, 6);
+    //     percolation.open(2, 6);
+    //     percolation.open(3, 6);
+    //     percolation.open(4, 6);
+    //     percolation.open(5, 6);
+    //     percolation.open(5, 5);
+    //     percolation.open(4, 4);
+    //     percolation.open(3, 4);
+    //     percolation.open(2, 4);
+    //     percolation.open(2, 3);
+    //     percolation.open(2, 2);
+    //     percolation.open(2, 1);
+    //     percolation.open(3, 1);
+    //     percolation.open(4, 1);
+    //     percolation.open(5, 1);
+    //     percolation.open(5, 2);
+    //     percolation.open(6, 2);
+    //     percolation.open(5, 4);
 
-    // System.out.println(Arrays.deepToString(percolation.grid).replace("], ",
-    // "]\n").replace("[[", "["));
-    // System.out.println(percolation.numberOfOpenSites());
-    // System.out.println(percolation.percolates());
+    //     System.out.println(Arrays.deepToString(percolation.grid).replace("], ",
+    //             "]\n").replace("[[", "[").replace("true", "0").replace("false", "1"));
+    //     System.out.println(percolation.numberOfOpenSites());
+    //     System.out.println(percolation.percolates());
 
     // }
 
