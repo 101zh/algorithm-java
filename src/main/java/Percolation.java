@@ -69,7 +69,7 @@ public class Percolation {
         row -= 1;
         col -= 1;
         throwException(isValid(row, col));
-        return false;
+        return quickUnionFind.connected(numberedGrid[row][col], virtualTop);
     }
 
     // returns the number of open sites
