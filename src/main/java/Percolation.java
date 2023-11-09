@@ -56,14 +56,18 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        row -= 1;
+        col -= 1;
         throwException(isValid(row, col));
 
-        return grid[row - 1][col - 1];
+        return grid[row][col];
 
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        row -= 1;
+        col -= 1;
         throwException(isValid(row, col));
         return false;
     }
