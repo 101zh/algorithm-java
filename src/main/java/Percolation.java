@@ -27,13 +27,6 @@ public class Percolation {
             }
         }
 
-        for (int i = 0; i < len; i++) {
-            quickUnionFind.union(i, virtualTop);
-        }
-
-        for (int i = virtualTop - len; i < virtualTop; i++) {
-            quickUnionFind.union(i, virtualBottom);
-        }
     }
 
     // opens the site (row, col) if it is not open already
@@ -42,6 +35,13 @@ public class Percolation {
         col -= 1;
         throwException(isValid(row, col));
         grid[row][col] = true;
+
+        if (row == 0) {
+            quickUnionFind.union(numberedGrid[row][col], virtualTop);
+        }
+        if (row == len - 1) {
+            quickUnionFind.union(numberedGrid[row][col], virtualBottom);
+        }
 
         if (isValid(row - 1, col) && grid[row - 1][col]) {
             quickUnionFind.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
