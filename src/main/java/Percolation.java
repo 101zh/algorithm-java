@@ -86,13 +86,13 @@ public class Percolation {
         return quickUnionFind.connected(virtualTop, virtualBottom);
     }
 
-    public boolean isValid(int row, int col) {
+    private boolean isValid(int row, int col) {
         boolean isvalidRows = row >= 0 && row <= len - 1;
         boolean isvalidCols = col >= 0 && col <= len - 1;
         return isvalidCols && isvalidRows;
     }
 
-    public static void throwException(boolean valid) {
+    private static void throwException(boolean valid) {
         if (!valid) {
             throw new IllegalArgumentException("Row or Column is invalid");
         }
