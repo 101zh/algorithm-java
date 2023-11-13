@@ -15,6 +15,7 @@ public class PercolationStats {
         this.trials = trials;
         thresholds = new double[trials];
 
+        int oneMoreThanN = n + 1;
         for (int trial = 0; trial < trials; trial++) {
             Percolation percolation = new Percolation(n);
             int sitesOpened = 0;
@@ -22,12 +23,14 @@ public class PercolationStats {
             while (!percolation.percolates()) {
                 boolean opened = false;
                 while (!opened) {
-                    int row = StdRandom.uniform(1, n);
-                    int col = StdRandom.uniform(1, n);
+                    int row = StdRandom.uniform(1, oneMoreThanN);
+                    int col = StdRandom.uniform(1, oneMoreThanN);
+
                     if (percolation.isOpen(row, col)) {
                         percolation.open(row, col);
                         opened = true;
                     }
+
                 }
                 sitesOpened++;
             }
@@ -60,7 +63,7 @@ public class PercolationStats {
 
     // test client (see below)
     public static void main(String[] args) {
-        PercolationStats percolationStats = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        PercolationStats percolationStats = new PercolationStats(2, 11);
         System.out.println("mean                    = " + percolationStats.mean());
         System.out.println("stddev                  = " + percolationStats.stddev());
         System.out.println("95% confidence interval = [" + percolationStats.confidenceLo() + ", "
