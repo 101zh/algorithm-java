@@ -7,8 +7,8 @@ public class Percolation {
     private WeightedQuickUnionUF quickUF;
     private WeightedQuickUnionUF noBackWashQuickUF;
     private boolean[][] grid;
-    private int[][] numberedGrid;
     private int len;
+    private int openSites;
     private int virtualTop;
     private int virtualBottom;
 
@@ -17,22 +17,13 @@ public class Percolation {
         if (n <= 0)
             throw new IllegalArgumentException("Invalid size of n or invalid trial #");
         grid = new boolean[n][n];
-        numberedGrid = new int[n][n];
-        int size = (n * n) + 2;
-        quickUF = new WeightedQuickUnionUF(size);
-        noBackWashQuickUF = new WeightedQuickUnionUF(size);
+        int lenSquared = (n * n) + 2;
+        quickUF = new WeightedQuickUnionUF(lenSquared);
+        noBackWashQuickUF = new WeightedQuickUnionUF(lenSquared);
         virtualTop = quickUF.count() - 2;
         virtualBottom = quickUF.count() - 1;
         len = n;
-
-        int curNumber = 0;
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-                numberedGrid[i][j] = curNumber;
-                curNumber++;
-            }
-        }
-
+        openSites = 0;
     }
 
     // opens the site (row, col) if it is not open already
@@ -40,31 +31,42 @@ public class Percolation {
         row -= 1;
         col -= 1;
         throwException(isValid(row, col));
+
+        if (grid[row][col]) {
+            return;
+        }
+        openSites++;
         grid[row][col] = true;
 
+        int flatIndex = giveFlatIndex(row, col);
+
         if (row == 0) {
-            quickUF.union(numberedGrid[row][col], virtualTop);
-            noBackWashQuickUF.union(numberedGrid[row][col], virtualTop);
+            quickUF.union(flatIndex, virtualTop);
+            noBackWashQuickUF.union(flatIndex, virtualTop);
         }
         if (row == len - 1) {
-            quickUF.union(numberedGrid[row][col], virtualBottom);
+            quickUF.union(flatIndex, virtualBottom);
         }
 
         if (isValid(row - 1, col) && grid[row - 1][col]) {
-            quickUF.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
-            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
+            int up = giveFlatIndex(row - 1, col);
+            quickUF.union(flatIndex, up);
+            noBackWashQuickUF.union(flatIndex, up);
         }
         if (isValid(row + 1, col) && grid[row + 1][col]) {
-            quickUF.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
-            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
+            int down = giveFlatIndex(row + 1, col);
+            quickUF.union(flatIndex, down);
+            noBackWashQuickUF.union(flatIndex, down);
         }
         if (isValid(row, col - 1) && grid[row][col - 1]) {
-            quickUF.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
-            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
+            int left = giveFlatIndex(row, col - 1);
+            quickUF.union(flatIndex, left);
+            noBackWashQuickUF.union(flatIndex, left);
         }
         if (isValid(row, col + 1) && grid[row][col + 1]) {
-            quickUF.union(numberedGrid[row][col], numberedGrid[row][col + 1]);
-            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row][col + 1]);
+            int right = giveFlatIndex(row, col + 1);
+            quickUF.union(flatIndex, right);
+            noBackWashQuickUF.union(flatIndex, right);
         }
     }
 
@@ -83,25 +85,22 @@ public class Percolation {
         row -= 1;
         col -= 1;
         throwException(isValid(row, col));
-        return noBackWashQuickUF.find(numberedGrid[row][col]) == noBackWashQuickUF.find(virtualTop);
+        int flatIndex = giveFlatIndex(row, col);
+        return noBackWashQuickUF.find(flatIndex) == noBackWashQuickUF.find(virtualTop);
     }
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-        int openSites = 0;
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
-                if (grid[i][j]) {
-                    openSites++;
-                }
-            }
-        }
         return openSites;
     }
 
     // does the system percolate?
     public boolean percolates() {
         return quickUF.find(virtualTop) == quickUF.find(virtualBottom);
+    }
+
+    private int giveFlatIndex(int row, int col) {
+        return (len * row) + col;
     }
 
     private boolean isValid(int row, int col) {
@@ -116,28 +115,14 @@ public class Percolation {
         }
     }
 
-    // test client (optional)
+    // // test client (optional)
     // public static void main(String[] args) {
-    // Percolation percolation = new Percolation(6);
-    // System.out.println(percolation.quickUnionFind.count());
-    // percolation.open(1, 6);
-    // percolation.open(2, 6);
-    // percolation.open(3, 6);
-    // percolation.open(4, 6);
-    // percolation.open(5, 6);
-    // percolation.open(5, 5);
-    // percolation.open(4, 4);
-    // percolation.open(3, 4);
-    // percolation.open(2, 4);
-    // percolation.open(2, 3);
+    // Percolation percolation = new Percolation(4);
+
+    // percolation.open(1, 1);
     // percolation.open(2, 2);
-    // percolation.open(2, 1);
-    // percolation.open(3, 1);
-    // percolation.open(4, 1);
-    // percolation.open(5, 1);
-    // percolation.open(5, 2);
-    // percolation.open(6, 2);
-    // percolation.open(5, 4);
+    // percolation.open(3, 3);
+    // percolation.open(4, 4);
 
     // System.out.println(Arrays.deepToString(percolation.grid).replace("], ",
     // "]\n").replace("[[", "[").replace("true", "0").replace("false", "1"));
