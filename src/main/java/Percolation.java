@@ -4,7 +4,8 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    private WeightedQuickUnionUF quickUnionFind;
+    private WeightedQuickUnionUF quickUF;
+    private WeightedQuickUnionUF noBackWashQuickUF;
     private boolean[][] grid;
     private int[][] numberedGrid;
     private int len;
@@ -17,9 +18,11 @@ public class Percolation {
             throw new IllegalArgumentException("Invalid size of n or invalid trial #");
         grid = new boolean[n][n];
         numberedGrid = new int[n][n];
-        quickUnionFind = new WeightedQuickUnionUF((n * n) + 2);
-        virtualTop = quickUnionFind.count() - 2;
-        virtualBottom = quickUnionFind.count() - 1;
+        int size = (n * n) + 2;
+        quickUF = new WeightedQuickUnionUF(size);
+        noBackWashQuickUF = new WeightedQuickUnionUF(size);
+        virtualTop = quickUF.count() - 2;
+        virtualBottom = quickUF.count() - 1;
         len = n;
 
         int curNumber = 0;
@@ -40,23 +43,28 @@ public class Percolation {
         grid[row][col] = true;
 
         if (row == 0) {
-            quickUnionFind.union(numberedGrid[row][col], virtualTop);
+            quickUF.union(numberedGrid[row][col], virtualTop);
+            noBackWashQuickUF.union(numberedGrid[row][col], virtualTop);
         }
         if (row == len - 1) {
-            quickUnionFind.union(numberedGrid[row][col], virtualBottom);
+            quickUF.union(numberedGrid[row][col], virtualBottom);
         }
 
         if (isValid(row - 1, col) && grid[row - 1][col]) {
-            quickUnionFind.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
+            quickUF.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
+            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row - 1][col]);
         }
         if (isValid(row + 1, col) && grid[row + 1][col]) {
-            quickUnionFind.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
-        }        
+            quickUF.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
+            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row + 1][col]);
+        }
         if (isValid(row, col - 1) && grid[row][col - 1]) {
-            quickUnionFind.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
+            quickUF.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
+            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row][col - 1]);
         }
         if (isValid(row, col + 1) && grid[row][col + 1]) {
-            quickUnionFind.union(numberedGrid[row][col], numberedGrid[row][col + 1]);
+            quickUF.union(numberedGrid[row][col], numberedGrid[row][col + 1]);
+            noBackWashQuickUF.union(numberedGrid[row][col], numberedGrid[row][col + 1]);
         }
     }
 
@@ -75,7 +83,7 @@ public class Percolation {
         row -= 1;
         col -= 1;
         throwException(isValid(row, col));
-        return quickUnionFind.connected(numberedGrid[row][col], virtualTop);
+        return noBackWashQuickUF.connected(numberedGrid[row][col], virtualTop);
     }
 
     // returns the number of open sites
@@ -93,7 +101,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return quickUnionFind.connected(virtualTop, virtualBottom);
+        return quickUF.connected(virtualTop, virtualBottom);
     }
 
     private boolean isValid(int row, int col) {
@@ -110,31 +118,31 @@ public class Percolation {
 
     // test client (optional)
     // public static void main(String[] args) {
-    //     Percolation percolation = new Percolation(6);
-    //     System.out.println(percolation.quickUnionFind.count());
-    //     percolation.open(1, 6);
-    //     percolation.open(2, 6);
-    //     percolation.open(3, 6);
-    //     percolation.open(4, 6);
-    //     percolation.open(5, 6);
-    //     percolation.open(5, 5);
-    //     percolation.open(4, 4);
-    //     percolation.open(3, 4);
-    //     percolation.open(2, 4);
-    //     percolation.open(2, 3);
-    //     percolation.open(2, 2);
-    //     percolation.open(2, 1);
-    //     percolation.open(3, 1);
-    //     percolation.open(4, 1);
-    //     percolation.open(5, 1);
-    //     percolation.open(5, 2);
-    //     percolation.open(6, 2);
-    //     percolation.open(5, 4);
+    // Percolation percolation = new Percolation(6);
+    // System.out.println(percolation.quickUnionFind.count());
+    // percolation.open(1, 6);
+    // percolation.open(2, 6);
+    // percolation.open(3, 6);
+    // percolation.open(4, 6);
+    // percolation.open(5, 6);
+    // percolation.open(5, 5);
+    // percolation.open(4, 4);
+    // percolation.open(3, 4);
+    // percolation.open(2, 4);
+    // percolation.open(2, 3);
+    // percolation.open(2, 2);
+    // percolation.open(2, 1);
+    // percolation.open(3, 1);
+    // percolation.open(4, 1);
+    // percolation.open(5, 1);
+    // percolation.open(5, 2);
+    // percolation.open(6, 2);
+    // percolation.open(5, 4);
 
-    //     System.out.println(Arrays.deepToString(percolation.grid).replace("], ",
-    //             "]\n").replace("[[", "[").replace("true", "0").replace("false", "1"));
-    //     System.out.println(percolation.numberOfOpenSites());
-    //     System.out.println(percolation.percolates());
+    // System.out.println(Arrays.deepToString(percolation.grid).replace("], ",
+    // "]\n").replace("[[", "[").replace("true", "0").replace("false", "1"));
+    // System.out.println(percolation.numberOfOpenSites());
+    // System.out.println(percolation.percolates());
 
     // }
 
