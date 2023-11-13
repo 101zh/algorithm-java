@@ -26,7 +26,7 @@ public class PercolationStats {
                     int row = StdRandom.uniform(1, oneMoreThanN);
                     int col = StdRandom.uniform(1, oneMoreThanN);
 
-                    if (percolation.isOpen(row, col)) {
+                    if (!percolation.isOpen(row, col)) {
                         percolation.open(row, col);
                         opened = true;
                     }
