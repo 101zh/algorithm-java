@@ -83,7 +83,7 @@ public class Percolation {
         row -= 1;
         col -= 1;
         throwException(isValid(row, col));
-        return noBackWashQuickUF.connected(numberedGrid[row][col], virtualTop);
+        return noBackWashQuickUF.find(numberedGrid[row][col]) == noBackWashQuickUF.find(virtualTop);
     }
 
     // returns the number of open sites
@@ -101,7 +101,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return quickUF.connected(virtualTop, virtualBottom);
+        return quickUF.find(virtualTop) == quickUF.find(virtualBottom);
     }
 
     private boolean isValid(int row, int col) {
