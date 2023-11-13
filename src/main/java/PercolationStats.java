@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
-    private double thresholds[];
+    private double[] thresholds;
     private int trials;
     private final double CONFIDENCE_95 = 1.96;
 
