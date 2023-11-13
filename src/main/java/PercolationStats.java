@@ -17,6 +17,7 @@ public class PercolationStats {
         thresholds = new double[trials];
 
         int oneMoreThanN = n + 1;
+        double numOfSites = n * n;
         for (int trial = 0; trial < trials; trial++) {
             Percolation percolation = new Percolation(n);
             int sitesOpened = 0;
@@ -36,8 +37,7 @@ public class PercolationStats {
                 sitesOpened++;
             }
 
-            thresholds[trial] = sitesOpened / (double) n * n;
-            System.out.println(sitesOpened);
+            thresholds[trial] = sitesOpened / numOfSites;
         }
 
     }
