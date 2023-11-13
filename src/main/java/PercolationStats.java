@@ -6,7 +6,7 @@ public class PercolationStats {
 
     private double[] thresholds;
     private int trials;
-    private final double CONFIDENCE_95 = 1.96;
+    private static final double CONFIDENCE_95 = 1.96;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
