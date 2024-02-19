@@ -3,16 +3,16 @@ import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private static class Node<Item> {
+    private class Node<Item> {
         Item item;
         Node<Item> down;
         Node<Item> up;
     }
 
-    public Node<Item> head;
-    public Node<Item> tail;
+    private Node<Item> head;
+    private Node<Item> tail;
     private int size;
-
+    
     // construct an empty deque
     public Deque() {
         head = null;
