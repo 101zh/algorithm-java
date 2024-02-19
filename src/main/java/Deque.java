@@ -12,7 +12,7 @@ public class Deque<Item> implements Iterable<Item> {
     private Node<Item> head;
     private Node<Item> tail;
     private int size;
-    
+
     // construct an empty deque
     public Deque() {
         head = null;
@@ -121,6 +121,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
             Item item = current.item;
             current = current.down;
             return item;
