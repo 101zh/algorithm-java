@@ -81,7 +81,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         Item item = head.item;
         head = head.down;
-        if (size > 1)
+        if (size > 0)
             head.up = null;
         else
             tail = null;
