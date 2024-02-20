@@ -53,9 +53,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         int index = (int) (StdRandom.uniform() * size);
         Item item = items[index];
-        for (int i = index + 1; i < items.length; i++) {
-            items[i - 1] = items[i];
-        }
+        items[index] = items[size - 1];
+        items[size - 1] = null;
 
         size--;
 
