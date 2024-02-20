@@ -88,13 +88,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 shuffled[i] = items[i];
             }
 
-            for (int i = 0; i < size / 2; i++) {
-                int randIndex1 = (int) (StdRandom.uniform() * size);
-                int randIndex2 = (int) (StdRandom.uniform() * size);
+            for (int i = 0; i < size; i++) {
+                int randIndex = (int) (StdRandom.uniform() * (size - i)) + i;
 
-                Item tempItem = shuffled[randIndex1];
-                shuffled[randIndex1] = shuffled[randIndex2];
-                shuffled[randIndex2] = tempItem;
+                Item tempItem = shuffled[randIndex];
+                shuffled[randIndex] = shuffled[i];
+                shuffled[i] = tempItem;
 
             }
 
