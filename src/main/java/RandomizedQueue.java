@@ -79,16 +79,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ListIterator implements Iterator<Item> {
-        int cur = -1;
+        private int cur = -1;
+        private Item[] shuffled = (Item[]) new Object[size];
 
         public ListIterator() {
+
+            for (int i = 0; i < size; i++) {
+                shuffled[i] = items[i];
+            }
+
             for (int i = 0; i < size / 2; i++) {
                 int randIndex1 = (int) (StdRandom.uniform() * size);
                 int randIndex2 = (int) (StdRandom.uniform() * size);
 
-                Item tempItem = items[randIndex1];
-                items[randIndex1] = items[randIndex2];
-                items[randIndex2] = tempItem;
+                Item tempItem = shuffled[randIndex1];
+                shuffled[randIndex1] = shuffled[randIndex2];
+                shuffled[randIndex2] = tempItem;
 
             }
 
@@ -99,7 +105,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 throw new NoSuchElementException();
 
             cur++;
-            return items[cur];
+            return shuffled[cur];
         }
 
         @Override
@@ -130,4 +136,3 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
 }
-
