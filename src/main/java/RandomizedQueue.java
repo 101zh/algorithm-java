@@ -33,7 +33,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         size++;
 
-        if (size >= items.length / 2) {
+        if (size == items.length) {
             resize(items.length * 2);
         }
     }
