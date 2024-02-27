@@ -35,6 +35,8 @@ public class FastCollinearPoints {
 
         for (int p = 0; p < points.length; p++) {
             Point pPoint = points[p];
+            Point startPoint;
+            Point endPoint;
             Arrays.sort(myPoints);
             Arrays.sort(myPoints, pPoint.slopeOrder());
             int count = 1;
@@ -45,8 +47,10 @@ public class FastCollinearPoints {
                     if (pPoint.compareTo(curPoint) > 0) {
                         count = 1;
                         break;
-                        // you may run into a situation where the slope to two points match, but won't actually form a line
-                        // if pPoint is greater then it will just stop iterating through the list, possibley missing lines
+                        // you may run into a situation where the slope to two points match, but won't
+                        // actually form a line
+                        // if pPoint is greater then it will just stop iterating through the list,
+                        // possibley missing lines
                         // SO FIX IT
                     }
                     count++;
@@ -101,11 +105,11 @@ public class FastCollinearPoints {
         FastCollinearPoints fastCollinearPoints = new FastCollinearPoints(points);
 
         // for (int i = 0; i < points.length; i++) {
-        //     int randIndex = (int) (StdRandom.uniform() * (points.length - i)) + i;
+        // int randIndex = (int) (StdRandom.uniform() * (points.length - i)) + i;
 
-        //     Point tempItem = points[randIndex];
-        //     points[randIndex] = points[i];
-        //     points[i] = tempItem;
+        // Point tempItem = points[randIndex];
+        // points[randIndex] = points[i];
+        // points[i] = tempItem;
 
         // }
         System.out.println(Arrays.deepToString(points));
