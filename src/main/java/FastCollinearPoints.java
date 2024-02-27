@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import edu.princeton.cs.algs4.StdRandom;
+
 public class FastCollinearPoints {
 
     private LineSegment[] lineSegments;
@@ -39,8 +41,14 @@ public class FastCollinearPoints {
 
             for (int q = 0; q < myPoints.length - 1; q++) {
                 Point curPoint = myPoints[q];
-                if ((pPoint.compareTo(curPoint) < 0
-                        && pPoint.slopeTo(curPoint) == pPoint.slopeTo(myPoints[q + 1]))) {
+                if (pPoint.slopeTo(curPoint) == pPoint.slopeTo(myPoints[q + 1])) {
+                    if (pPoint.compareTo(curPoint) > 0) {
+                        count = 1;
+                        break;
+                        // you may run into a situation where the slope to two points match, but won't actually form a line
+                        // if pPoint is greater then it will just stop iterating through the list, possibley missing lines
+                        // SO FIX IT
+                    }
                     count++;
                 } else {
                     if (count >= 3) {
@@ -84,16 +92,24 @@ public class FastCollinearPoints {
     }
 
     public static void main(String[] args) {
-        Point point0 = new Point(-1, 6);
-        Point point1 = new Point(0, 5);
-        Point point2 = new Point(1, 4);
-        Point point3 = new Point(2, 3);
-        Point point4 = new Point(3, 2);
-        Point point5 = new Point(4, 1);
+        Point point3 = new Point(30000, 8500);
+        Point point2 = new Point(29550, 8500);
+        Point point = new Point(23000, 8500);
+        Point point4 = new Point(30950, 8500);
 
-        Point[] points = { point0, point1, point5, point2, point3, point4 };
+        Point[] points = { point3, point2, point, point4 };
         FastCollinearPoints fastCollinearPoints = new FastCollinearPoints(points);
-        System.out.println(point4.slopeTo(point5));
+
+        // for (int i = 0; i < points.length; i++) {
+        //     int randIndex = (int) (StdRandom.uniform() * (points.length - i)) + i;
+
+        //     Point tempItem = points[randIndex];
+        //     points[randIndex] = points[i];
+        //     points[i] = tempItem;
+
+        // }
+        System.out.println(Arrays.deepToString(points));
+
         System.out.println(Arrays.deepToString(fastCollinearPoints.segments()));
     }
 }
