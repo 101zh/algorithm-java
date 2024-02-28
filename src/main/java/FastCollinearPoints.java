@@ -1,7 +1,5 @@
 import java.util.Arrays;
 
-import edu.princeton.cs.algs4.StdRandom;
-
 public class FastCollinearPoints {
 
     private LineSegment[] lineSegments;
@@ -35,8 +33,7 @@ public class FastCollinearPoints {
 
         for (int p = 0; p < points.length; p++) {
             Point pPoint = points[p];
-            Point startPoint;
-            Point endPoint;
+            Point startPoint = pPoint;
             Arrays.sort(myPoints);
             Arrays.sort(myPoints, pPoint.slopeOrder());
             int count = 1;
@@ -44,18 +41,12 @@ public class FastCollinearPoints {
             for (int q = 0; q < myPoints.length - 1; q++) {
                 Point curPoint = myPoints[q];
                 if (pPoint.slopeTo(curPoint) == pPoint.slopeTo(myPoints[q + 1])) {
-                    if (pPoint.compareTo(curPoint) > 0) {
-                        count = 1;
-                        break;
-                        // you may run into a situation where the slope to two points match, but won't
-                        // actually form a line
-                        // if pPoint is greater then it will just stop iterating through the list,
-                        // possibley missing lines
-                        // SO FIX IT
+                    if (count == 1) {
+                        startPoint = curPoint;
                     }
                     count++;
                 } else {
-                    if (count >= 3) {
+                    if (count >= 3 && pPoint.compareTo(startPoint) < 0) {
                         tempLineSegments[lineSegmentCount] = new LineSegment(pPoint, myPoints[q]);
                         lineSegmentCount++;
                     }
@@ -63,7 +54,7 @@ public class FastCollinearPoints {
                 }
             }
 
-            if (count >= 3) {
+            if (count >= 3 && pPoint.compareTo(startPoint) < 0) {
                 tempLineSegments[lineSegmentCount] = new LineSegment(pPoint, myPoints[myPoints.length - 1]);
                 lineSegmentCount++;
             }
