@@ -32,10 +32,15 @@ public class FastCollinearPoints {
         LineSegment[] tempLineSegments = new LineSegment[points.length * points.length];
 
         for (int p = 0; p < points.length; p++) {
+            // Reference Point used for slope
             Point pPoint = points[p];
+            // The first point that has a matching slope to the next point
             Point startPoint = pPoint;
+            
+            // Sort by smallest to largest then by slope
             Arrays.sort(myPoints);
             Arrays.sort(myPoints, pPoint.slopeOrder());
+            // number of points with matching slopes (includes Ppoint so it starts at 1)
             int count = 1;
 
             for (int q = 0; q < myPoints.length - 1; q++) {
@@ -94,16 +99,6 @@ public class FastCollinearPoints {
 
         Point[] points = { point3, point2, point, point4 };
         FastCollinearPoints fastCollinearPoints = new FastCollinearPoints(points);
-
-        // for (int i = 0; i < points.length; i++) {
-        // int randIndex = (int) (StdRandom.uniform() * (points.length - i)) + i;
-
-        // Point tempItem = points[randIndex];
-        // points[randIndex] = points[i];
-        // points[i] = tempItem;
-
-        // }
-        System.out.println(Arrays.deepToString(points));
 
         System.out.println(Arrays.deepToString(fastCollinearPoints.segments()));
     }
