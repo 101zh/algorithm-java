@@ -1,3 +1,5 @@
+package CollinearPoints;
+
 import java.util.Arrays;
 
 public class BruteCollinearPoints {

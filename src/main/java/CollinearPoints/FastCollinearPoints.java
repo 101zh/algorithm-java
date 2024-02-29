@@ -1,3 +1,5 @@
+package CollinearPoints;
+
 import java.util.Arrays;
 
 public class FastCollinearPoints {
@@ -36,7 +38,7 @@ public class FastCollinearPoints {
             Point pPoint = points[p];
             // The first point that has a matching slope to the next point
             Point startPoint = pPoint;
-            
+
             // Sort by smallest to largest then by slope
             Arrays.sort(myPoints);
             Arrays.sort(myPoints, pPoint.slopeOrder());

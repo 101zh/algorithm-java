@@ -1,3 +1,4 @@
+package CollinearPoints;
 
 /******************************************************************************
  *  Compilation:  javac Point.java
